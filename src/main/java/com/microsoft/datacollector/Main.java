@@ -62,12 +62,21 @@ public class Main {
         if (!instances.isEmpty()) {
             System.out.println("\n\n------------------ " + title + " ------------------");
             for (Instance instance : instances) {
+                if (instance == null) {
+                    logger.warning("Skip null instance in the list.");
+                    continue;
+                }
                 System.out.println("\nInstance ID: " + instance.instanceId());
                 System.out.println("Instance Tags:");
-                instance.tags().forEach(tag -> {
-                    System.out.println("Key: " + tag.key());
-                    System.out.println("Value: " + tag.value());
-                });
+                if (instance.tags() != null) {
+                    instance.tags().forEach(tag -> {
+                        System.out.println("Key: " + tag.key());
+                        System.out.println("Value: " + tag.value());
+                    });
+                } else {
+                    logger.warning("No tags are found for instance: " + instance.instanceId());
+                }
+
             }
             System.out.println();
         }
